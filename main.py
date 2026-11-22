@@ -21,6 +21,15 @@ def main() -> None:
     path = os.path.join(out_dir, "entry.txt")
     with open(path, "w", encoding="utf-8", newline="") as f:
         f.write(TEXT)
+    # Self-check against the competition gate: the file must be UTF-8 text
+    # of 1 to 280 characters, not only whitespace. Fail loudly instead of
+    # handing the grader an invalid entry.
+    with open(path, "r", encoding="utf-8", newline="") as f:
+        written = f.read()
+    if not 1 <= len(written) <= 280 or not written.strip():
+        raise SystemExit(
+            f"entry.txt failed the gate: {len(written)} characters"
+        )
 
 
 if __name__ == "__main__":
